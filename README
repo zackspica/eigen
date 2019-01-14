@@ -1,0 +1,50 @@
+
+0) Dependencies : Computer code for seismology --> http://www.eas.slu.edu/eqc/eqccps.html
+
+1)  input files:
+    ------------
+    ** start_model.dat **
+
+    the basic step model for only few caps. the program create_model.py
+    will automaticaly discretize it.
+    The start_model.dat must look like:
+
+    H(KM)  VP(KM/S)  VS(KM/S)  RHO(GM/CC)  QP  QS  ETAP  ETAS  FREFP  FREFS
+    0.7813   2.34      1.35      1518.2   500  250  0.0  0.0   1.0   1.0
+    0.9957   2.42      1.40      1545.9   500  250  0.0  0.0   1.0   1.0
+    1.2132   4.59      2.65      2238.7   500  250  0.0  0.0   1.0   1.0
+    1.1272   5.32      3.06      2471.6   500  250  0.0  0.0   1.0   1.0
+    ...      ...       ..        ..       .    .
+
+    /!\ the program skip the infinity half space -> add one fictive infinitecimal line to
+    take deeper layer in acount
+
+    ** distance.dat **
+    
+    The required distance file. The file contains the following ASCII entries per line:
+                        DIST DT NPTS T0 VRED
+    where DIST is the epicentral distance in kilometers, DT is the sampling interval for
+    the time series, NPTS is the number of points in the time series ( a power of 2). T0
+    and VRED are used to define the time of the first sample point which is T0 +
+    DIST/VRED if VRED ≠ 0 or T0 if VRED = 0.
+    This program only uses the DT and NPTS entries to define the frequency range of
+    desired dispersion
+    
+    1. 0.5 1024 0. 0
+    2. 0.5 1024 0. 0
+    3. 0.5 1024 0. 0
+    4. 0.5 1024 0. 0
+    5. 0.5 1024 0. 0
+
+2)  >> Run create_model.py
+    > Create all necesary inputs
+    > Ask for the step
+    > Note the displayed nlayers for eigenfunctions_*.bash (for step4))
+
+3)  >> Run comp_disp.py
+
+4)  >  Change the nlayer in eigenfunctions_*.bash
+    >> Run eigenfunctions_*.bash
+
+5)  > Set parameters for plot_eigen.py
+    >> Plot it
