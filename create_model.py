@@ -27,7 +27,7 @@ def cumula():
     for i, d in enumerate(model['H'][:-1]): 
     # le dernier est souvent le semi espace donc pas besoin (tres prof)
         cumul +=d
-        print "layer ", i, " - depth: ", cumul
+        print ("layer ", i, " - depth: ", cumul)
         f.write("%s\n" % cumul)
     f.close()
 
@@ -72,10 +72,10 @@ def model_input(step=0.1):
                         model['FREFP'][i], model['FREFS'][i]))
     f.close()
     os.system("mkmod96 < model96_input.tmp")
-    print ">>  Model_step96.in is ready... next step is comp_disp.bash"
-    print '>>  nlayers =', k
-    print ">>  Change nlayer in eigenfucntion_*.bash!!!!"
-    print ">>  mkmod96"
+    print (">>  Model_step96.in is ready... next step is comp_disp.bash")
+    print ('>>  nlayers =', k)
+    print (">>  Change nlayer in eigenfucntion_*.bash!!!!")
+    print (">>  mkmod96")
 
 def check(step=1.):
     model = np.loadtxt('cumul_depths.tmp',dtype={'names': ('H'),'formats': \
@@ -83,11 +83,11 @@ def check(step=1.):
     depth = model['H'][-1]
     n = depth/step
     if n >200:
-        print ">>  Too many layers for mkmod96 (max=200)\n>>  You must change the step size or refine the start_model.dat\n>>  (must be shalower)"
-        print "Exit"
+        print (">>  Too many layers for mkmod96 (max=200)\n>>  You must change the step size or refine the start_model.dat\n>>  (must be shalower)")
+        print ("Exit")
         sys.exit()
     else:
-        print ">>  Step size Ok"
+        print (">>  Step size Ok")
         pass
 
 
@@ -100,7 +100,7 @@ def depthfile(step):
     for d in np.arange(step,maxdepth,step):
         f.write('%s\n'%d) 
     f.close()
-    print ">>  depth.dat up to date"
+    print (">>  depth.dat up to date")
 
 def minfo():
     """ create model.info for easy plot"""
@@ -118,14 +118,14 @@ def minfo():
     
     f = open('model.info','w+')
     for line in out:
-        print " ".join(str(x) for x in line)
+        print (" ".join(str(x) for x in line))
         f.write(" ".join(str(x) for x in line) + "\n") 
     f.close()
 
 
 
 if __name__=="__main__":
-    step = input("Enter the step size (km) :")
+    step = float(input("Enter the step size (km) :"))
     cumula()
     check(step=step)
     depthfile(step)
